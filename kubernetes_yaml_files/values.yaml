@@ -1,0 +1,37 @@
+# Datadog Agent with Datadog Cluster Agent and
+# OrchestratorExplorer (Live Containers), Check Runners, and
+# External Metrics Server enabled
+
+targetSystem: "linux"
+datadog:
+  apiKey: '28324d22022fedf12e681669248e2f70'
+  appKey: 'f5a3a4d73c8d2c66f7413f6a9f1460212c240be3'
+  # If not using secrets, then use apiKey and appKey instead
+  # apiKeyExistingSecret: <DATADOG_API_KEY_SECRET>
+  # appKeyExistingSecret: <DATADOG_APP_KEY_SECRET>
+  clusterName: datdogTesting
+  tags: []
+  orchestratorExplorer:
+    enabled: true
+clusterAgent:
+  replicas: 2
+  rbac:
+    create: true
+    serviceAccountName: default
+  metricsProvider:
+    enabled: true
+    createReaderRbac: true
+    useDatadogMetrics: true
+    service:
+      type: ClusterIP
+      port: 8443
+agents:
+  rbac:
+    create: true
+    serviceAccountName: default
+clusterChecksRunner:
+  enabled: true
+  rbac:
+    create: true
+    serviceAccountName: default
+  replicas: 2
